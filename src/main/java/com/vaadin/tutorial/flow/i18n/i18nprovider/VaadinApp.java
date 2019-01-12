@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vaadin.tutorial.flow.helloworld.maven.meecrowave;
+package com.vaadin.tutorial.flow.i18n.i18nprovider;
 
 
 import com.vaadin.flow.component.Composite;

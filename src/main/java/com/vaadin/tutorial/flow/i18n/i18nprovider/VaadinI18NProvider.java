@@ -1,4 +1,4 @@
-package org.rapidpm.vaadin.api.i18;
+package com.vaadin.tutorial.flow.i18n.i18nprovider;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
@@ -9,10 +9,6 @@ import static org.rapidpm.frp.matcher.Case.match;
 import static org.rapidpm.frp.matcher.Case.matchCase;
 import static org.rapidpm.frp.model.Result.success;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
