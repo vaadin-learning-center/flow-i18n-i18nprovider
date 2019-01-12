@@ -7,7 +7,7 @@ Focus will be the question, how to deal with different languages (I18N).
 
 All tutorials are available under [https://vaadin.com/tutorials](https://vaadin.com/tutorials)
 
-Reading the following line of code, you will see that the label will be set
+Reading the following line of code, you will see that the label **click me** will be set
 during the creation of the button instance.
 
 ```java
