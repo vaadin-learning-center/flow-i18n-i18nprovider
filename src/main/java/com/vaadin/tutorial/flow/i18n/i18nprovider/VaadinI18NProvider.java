@@ -26,7 +26,7 @@ public class VaadinI18NProvider implements I18NProvider, HasLogger {
 
   private static final ResourceBundle RESOURCE_BUNDLE_EN = getBundle(RESOURCE_BUNDLE_NAME , ENGLISH);
   private static final ResourceBundle RESOURCE_BUNDLE_DE = getBundle(RESOURCE_BUNDLE_NAME , GERMAN);
-  private static final List providedLocales = unmodifiableList(asList(ENGLISH , GERMAN));
+  private static final List<Locale> providedLocales = unmodifiableList(asList(ENGLISH , GERMAN));
 
   @Override
   public List<Locale> getProvidedLocales() {
