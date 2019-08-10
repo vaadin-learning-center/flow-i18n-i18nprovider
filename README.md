@@ -1,4 +1,4 @@
-# flow-i18n-i18nprovider
+# Flow I18NProvider
 How to start with the I18nProvider in Flow.
 
 In this tutorial we will learn how to implement an I18NProvider
