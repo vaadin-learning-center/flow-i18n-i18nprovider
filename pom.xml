@@ -22,9 +22,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.rapidpm</groupId>
-    <artifactId>rapidpm-vaadin-dependencies-v14</artifactId>
-    <version>04.01.06-RPM</version>
+    <groupId>com.github.vaadin-learning-center.vaadin-dependencies</groupId>
+    <artifactId>vaadin-dependencies-v14</artifactId>
+    <version>d17d0e9e</version>
   </parent>
 
 
@@ -77,12 +77,17 @@
   </licenses>
 
   <properties>
-<!--    <vaadin.version>14.0.0.rc7</vaadin.version>-->
+    <jdk.version>1.8</jdk.version>
+    <byte-buddy.version>1.10.0</byte-buddy.version>
     <meecrowave.version>1.2.7</meecrowave.version>
-
   </properties>
 
-
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
 
   <!-- Just to disable any accidental deployment to maven.central -->
   <distributionManagement>
@@ -110,12 +115,10 @@
   </dependencyManagement>
 
   <dependencies>
-    <!--Infrastructure-->
     <dependency>
-      <groupId>org.apache.meecrowave</groupId>
-      <artifactId>meecrowave-core</artifactId>
-      <version>${meecrowave.version}</version>
-      <scope>compile</scope>
+      <groupId>com.github.vaadin-learning-center.vaadin-dependencies</groupId>
+      <artifactId>vaadin-dependencies-nano-jetty</artifactId>
+      <version>d17d0e9e</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -125,114 +128,73 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>${byte-buddy.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-testbench</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-server</artifactId>
+        </exclusion>
+      </exclusions>
+
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>selenium</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-chrome-driver</artifactId>
+      <version>3.141.59</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <finalName>vaadin-app</finalName>
+              <transformers>
+                <transformer
+                    implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <manifestEntries>
+                    <Main-Class>org.vaadin.tutorial.nano.jetty.NanoVaadin</Main-Class>
+                  </manifestEntries>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
-      <plugin>
-        <!--
-          With this plugin you can start the container..:
-          $> mvn clean install meecrowave:run
-          for debugging:
-          $> mvnDebug meecrowave:run
-        -->
-        <groupId>org.apache.meecrowave</groupId>
-        <artifactId>meecrowave-maven-plugin</artifactId>
-        <version>${meecrowave.version}</version>
-      </plugin>
-
     </plugins>
   </build>
-
-
-  <profiles>
-    <profile>
-      <id>vaadin-install-nodejs</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-maven-plugin</artifactId>
-            <version>${vaadin-v14.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>prepare-frontend</goal>
-                  <goal>build-frontend</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>com.github.eirslett</groupId>
-            <artifactId>frontend-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <!-- optional: you don't really need execution ids, but it looks nice in your build log. -->
-                <id>install node and npm</id>
-                <goals>
-                  <goal>install-node-and-npm</goal>
-                </goals>
-                <!-- optional: default phase is "generate-resources" -->
-                <phase>generate-resources</phase>
-              </execution>
-            </executions>
-            <configuration>
-              <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
-              <!-- optional: with node version greater than 4.0.0 will use npm provided by node distribution -->
-              <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
-              <!-- optional: where to download node and npm from. Defaults to https://nodejs.org/dist/ -->
-              <!--              <downloadRoot>http://myproxy.example.org/nodejs/</downloadRoot>-->
-              <!--              <installDirectory>${frontend-maven-plugin.installDirectory}</installDirectory>-->
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>vaadin-productionMode</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <!--        <property>-->
-        <!--          <name>vaadin-productionMode</name>-->
-        <!--        </property>-->
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>com.vaadin</groupId>
-          <artifactId>flow-server-production-mode</artifactId>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-maven-plugin</artifactId>
-            <version>${vaadin-v14.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>copy-production-files</goal>
-                  <goal>package-for-production</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
-
 </project>
