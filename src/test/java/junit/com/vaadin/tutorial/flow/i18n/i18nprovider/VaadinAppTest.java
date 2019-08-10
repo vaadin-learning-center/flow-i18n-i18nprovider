@@ -1,9 +1,9 @@
 package junit.com.vaadin.tutorial.flow.i18n.i18nprovider;
 
-import junit.com.vaadin.tutorial.flow.VaadinTutorial;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.rapidpm.dependencies.core.logger.HasLogger;
+import org.vaadin.tutorial.nano.jetty.junit5.VaadinTutorial;
 
 @VaadinTutorial
 public class VaadinAppTest

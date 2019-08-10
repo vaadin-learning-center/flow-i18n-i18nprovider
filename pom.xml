@@ -24,7 +24,7 @@
   <parent>
     <groupId>com.github.vaadin-learning-center.vaadin-dependencies</groupId>
     <artifactId>vaadin-dependencies-v14</artifactId>
-    <version>d17d0e9e</version>
+    <version>fd8e29fa</version>
   </parent>
 
 
@@ -118,7 +118,13 @@
     <dependency>
       <groupId>com.github.vaadin-learning-center.vaadin-dependencies</groupId>
       <artifactId>vaadin-dependencies-nano-jetty</artifactId>
-      <version>d17d0e9e</version>
+      <version>fd8e29fa</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.vaadin-learning-center.vaadin-dependencies</groupId>
+      <artifactId>vaadin-dependencies-nano-jetty-junit5</artifactId>
+      <scope>test</scope>
+      <version>fd8e29fa</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
