@@ -1,12 +1,12 @@
 /**
  * Copyright © 2017 Sven Ruppert (sven.ruppert@gmail.com)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,16 +29,26 @@ import static java.lang.String.valueOf;
 
 @Route("")
 @PageTitle("pagetitle.main.app")
-public class VaadinApp extends Composite<Div> implements HasLogger {
+public class VaadinApp
+    extends Composite<Div>
+    implements HasLogger {
 
-//  private final Button         btnClickMe   = new Button("click me");
-  private final Button         btnClickMe   = new Button(getTranslation("btn.click-me"));
-  private final Span           lbClickCount = new Span("0");
-  private final VerticalLayout layout       = new VerticalLayout(btnClickMe, lbClickCount);
+  public static final String         BUTTON_ID    = "buttonID";
+  public static final String SPAN_ID = "buttonClickCount";
+
+  public static final String KEY_BTN_CLICK_ME = "btn.click-me";
+
+  //  private final Button         btnClickMe   = new Button("click me");
+  private final       Button         btnClickMe   = new Button(getTranslation(KEY_BTN_CLICK_ME));
+  private final       Span           lbClickCount = new Span("0");
+  private final       VerticalLayout layout       = new VerticalLayout(btnClickMe, lbClickCount);
 
   private int clickcount = 0;
 
   public VaadinApp() {
+    lbClickCount.setId(SPAN_ID);
+
+    btnClickMe.setId(BUTTON_ID);
     btnClickMe.addClickListener(event -> lbClickCount.setText(valueOf(++clickcount)));
     logger().info("setting now the main ui content..");
     getContent().add(layout);
